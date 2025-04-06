@@ -18,7 +18,7 @@ const Login = ({ setIsAuthenticated,onLoginSuccess  }) => {
     setError('');
     setIsLoading(true);
     try {
-      const res = await axios.get('http://localhost:3006/users', {
+      const res = await axios.get('https://contact-app-0zrf.onrender.com/users', {
         params: {
           email: formData.email,
           password: formData.password
@@ -52,7 +52,7 @@ const Login = ({ setIsAuthenticated,onLoginSuccess  }) => {
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <input 
-              name="username" 
+              name="email" 
               type="email" 
               placeholder="email" 
               onChange={handleChange} 

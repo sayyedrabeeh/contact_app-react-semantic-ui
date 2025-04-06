@@ -19,7 +19,7 @@ const Signup = () => {
     setError('');
     try {
       setIsLoading(true);
-      const res = await axios.post('http://localhost:3006/users', {
+      const res = await axios.post('https://contact-app-0zrf.onrender.com/users', {
         email: formData.email,
         password: formData.password,
         name: formData.name
