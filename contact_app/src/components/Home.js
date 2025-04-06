@@ -19,7 +19,7 @@ const Home = ({ currentUser, contacts }) => {
     toast.info("Logged out successfully"); 
   
     setTimeout(() => {
-      window.location.href = '/home';  
+      window.location.href = '/Home';  
     }, 1000);  
   };
 

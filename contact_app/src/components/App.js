@@ -50,7 +50,7 @@ function AppContent() {
    }
 
    const updateContactHandler = async (contact) => {
-     // Add logic for updating a contact here
+     
      const response = await api.put(`/contacts/${contact.id}`, contact);
      const {id,name,email,mobile} =response.data;
      setcontacts(contacts.map((contact)=>{

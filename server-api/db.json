@@ -32,6 +32,12 @@
       "email": "rabi@gmail.com",
       "password": "1234",
       "name": "sayyed rabeeh1"
+    },
+    {
+      "id": "ede1",
+      "email": "sh@gmail.com",
+      "password": "12345",
+      "name": "shuraif"
     }
   ],
   "contacts": [
