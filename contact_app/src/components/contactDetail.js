@@ -1,5 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import userImg from '../images/user1.png';
+
 
 const ContactDetail = () => {
   const location = useLocation();
@@ -18,7 +20,7 @@ const ContactDetail = () => {
     );
   }
   
-  const { name, email } = contact;
+  const { name, email,mobile } = contact;
   
   const getInitials = (name) => {
     return name
@@ -30,11 +32,15 @@ const ContactDetail = () => {
   
   return (
     <div className="contact-detail fade-in">
-      <div className="contact-avatar avatar" style={{ fontSize: '40px' }}>
-        {getInitials(name)}
+      <div className="" style={{ fontSize: '40px' }}>
+     
+
+      <img src={userImg} alt="User Avatar" className="  image   my-avatar" />
+      
       </div>
-      <h2>{name}</h2>
-      <p>{email}</p>
+      <h2>Name:{name}</h2>
+      <p>Email :{email}</p>
+      <p>Phone No :{mobile}</p>
       <Link to="/">
         <button className="btn btn-primary">Back to Contacts</button>
       </Link>

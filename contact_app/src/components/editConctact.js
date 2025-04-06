@@ -1,23 +1,33 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate,Link } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const EditContact = ({ updateContactHandler }) => {
   const location = useLocation();
   const navigate = useNavigate();
   
-  const { id, name: initialName, email: initialEmail } = location.state?.contact || {};
+  const { id, name: initialName, email: initialEmail  ,mobile:initialmobile} = location.state?.contact || {};
   
   const [name, setName] = useState(initialName || "");
   const [email, setEmail] = useState(initialEmail || "");
+  const [mobile, setMobile] = useState(initialmobile || "");
   
   const update = (e) => {
     e.preventDefault();
     if (name === "" || email === "") {
-      alert("All fields are mandatory");
+        toast.error("All fields are mandatory!");
       return;
     }
+    if (mobile === "" || mobile.length < 10 || isNaN(mobile)) {
+        toast.error("Enter a valid mobile number with at least 10 digits");
+        return;
+      }
+      
     
-    updateContactHandler({ id, name, email });
+    updateContactHandler({ id, name, email,mobile });
+    toast.success("Contact updated successfully!");
     navigate("/");
   };
   
@@ -39,7 +49,8 @@ const EditContact = ({ updateContactHandler }) => {
       <div className="header">
         <h2>Edit Contact</h2>
       </div>
-      
+      <ToastContainer position="top-right" autoClose={3000} />
+
       <div className="form-container">
         <form onSubmit={update}>
           <div className="form-group">
@@ -61,6 +72,17 @@ const EditContact = ({ updateContactHandler }) => {
               placeholder="Enter email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Phone No</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Enter number"
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
             />
           </div>
           

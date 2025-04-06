@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const ContactCard = (props) => {
-  const { id, name, email } = props.contact;
+  const { id, name, email,mobile } = props.contact;
   
   const getInitials = (name) => {
     return name
@@ -21,6 +22,7 @@ const ContactCard = (props) => {
         <div className="contact-info">
           <h3>{name}</h3>
           <p>{email}</p>
+          <p>{mobile}</p>
         </div>
       </div>
       <div className="contact-actions">

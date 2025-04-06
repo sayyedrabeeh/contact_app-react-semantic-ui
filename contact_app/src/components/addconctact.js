@@ -1,21 +1,31 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddContact = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
   const navigate = useNavigate();
 
   const add = (e) => {
     e.preventDefault();
     if (name === "" || email === "") {
-      alert("All fields are mandatory");
+        toast.error("All fields are mandatory!");
       return;
     }
-    
-    props.addContactHandler({ name, email });
+    if (mobile === "" || mobile.length < 10 || isNaN(mobile)) {
+        toast.error("Enter a valid mobile number with at least 10 digits");
+        return;
+      }
+      
+    props.addContactHandler({ name, email,mobile });
     setName("");
     setEmail("");
+    setMobile("");
+    toast.success("Contact added successfully!");
     navigate("/");
   };
 
@@ -24,7 +34,8 @@ const AddContact = (props) => {
       <div className="header">
         <h2>Add Contact</h2>
       </div>
-      
+      <ToastContainer position="top-right" autoClose={3000} />
+
       <div className="form-container">
         <form onSubmit={add}>
           <div className="form-group">
@@ -46,6 +57,16 @@ const AddContact = (props) => {
               placeholder="Enter email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label>Phone No</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Enter Mobile number"
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
             />
           </div>
           
