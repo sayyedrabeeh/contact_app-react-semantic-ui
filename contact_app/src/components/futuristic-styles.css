@@ -1,0 +1,206 @@
+/* Futuristic Theme Variables */
+:root {
+    --primary-color: #00ffaa;
+    --primary-gradient: linear-gradient(135deg, #00ffaa 0%, #00a3ff 100%);
+    --secondary-color: #00a3ff;
+    --accent-color: #ff00c8;
+    --dark-bg: #050510;
+    --card-bg: #0a0a20;
+    --text-primary: #ffffff;
+    --text-secondary: #8f8fb7;
+    --border-radius: 4px;
+    --box-shadow: 0 10px 25px rgba(0, 163, 255, 0.15);
+    --neon-glow: 0 0 15px rgba(0, 255, 170, 0.6);
+  }
+  
+  /* Base Styles */
+  body {
+    background-color: var(--dark-bg);
+    background-image: 
+      radial-gradient(circle at top right, rgba(0, 163, 255, 0.1), transparent 70%),
+      radial-gradient(circle at bottom left, rgba(0, 255, 170, 0.1), transparent 70%);
+    color: var(--text-primary);
+    font-family: 'Rajdhani', 'Orbitron', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Auth Form Container */
+  .auth-form {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  /* Glowing borders */
+  .auth-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-gradient);
+    box-shadow: var(--neon-glow);
+    z-index: -1;
+  }
+  
+  .auth-form::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    right: 20%;
+    height: 1px;
+    background: var(--primary-gradient);
+    opacity: 0.5;
+    z-index: -1;
+  }
+  
+  /* Heading */
+  .auth-form h2 {
+    font-size: 2.2rem;
+    margin: 0 0 1.5rem 0;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+  }
+  
+  .auth-form h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 25%;
+    right: 25%;
+    height: 1px;
+    background: var(--primary-gradient);
+  }
+  
+  /* Form Elements */
+  .auth-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+  }
+  
+  .auth-form input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+  
+  .auth-form input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+  }
+  
+  .auth-form input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 255, 170, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Button */
+  .auth-form button {
+    padding: 1rem 1.5rem;
+    background: var(--primary-gradient);
+    border: none;
+    border-radius: var(--border-radius);
+    color: #050510;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--neon-glow);
+    margin-top: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    font-family: inherit;
+  }
+  
+  .auth-form button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+  }
+  
+  .auth-form button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(0, 255, 170, 0.3);
+  }
+  
+  .auth-form button:hover::before {
+    left: 100%;
+  }
+  
+  .auth-form button:active {
+    transform: translateY(-1px);
+  }
+  
+  /* Additional futuristic elements */
+  .circuit-lines {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    z-index: -1;
+    background-image: 
+      linear-gradient(90deg, transparent 98%, var(--primary-color) 98%),
+      linear-gradient(transparent 98%, var(--primary-color) 98%);
+    background-size: 30px 30px;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes pulse {
+    0% { box-shadow: 0 0 10px rgba(0, 255, 170, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(0, 255, 170, 0.8); }
+    100% { box-shadow: 0 0 10px rgba(0, 255, 170, 0.5); }
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 500px) {
+    .auth-form {
+      padding: 2rem 1.5rem;
+      max-width: 90%;
+    }
+  }
