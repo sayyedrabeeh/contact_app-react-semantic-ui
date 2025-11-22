@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate,Link } from 'react-router-dom';
 import './darkTheme.css';  
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth } from "./firebaseConfig";
 
 const Signup = ({ setIsAuthenticated }) => {
   const [formData, setFormData] = useState({ email: '', password: '',name: '' });

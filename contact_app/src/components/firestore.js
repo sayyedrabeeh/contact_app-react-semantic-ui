@@ -1,6 +1,6 @@
 // firestore.js
 import { collection, addDoc, getDocs, query, where, doc, updateDoc, deleteDoc } from "firebase/firestore";
-import { db } from "./firebase";
+import { db } from "./firebaseConfig";
 
 // Add a new contact
 export const addContactFirestore = async (contact, userId) => {

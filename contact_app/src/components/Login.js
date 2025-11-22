@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import './darkTheme.css'; // Import the CSS file
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth } from "./firebaseConfig";
 
 
 const Login = ({ setIsAuthenticated,onLoginSuccess  }) => {
