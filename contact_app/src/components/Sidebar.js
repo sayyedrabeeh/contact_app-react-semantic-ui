@@ -5,11 +5,12 @@ import { toast } from 'react-toastify';
 const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const isAuthenticated = !!localStorage.getItem("token");
 
   const handleLogout = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('userId');  
-  toast.info("Logged out successfully"); 
+    toast.info("Logged out successfully"); 
 
   setTimeout(() => {
     window.location.href = '/home';  
@@ -38,10 +39,19 @@ const Sidebar = () => {
           <span>Add Contact</span>
         </div>
       </Link>
-      <button className="secondary-btn" onClick={handleLogout}>
-            <span className="btn-icon">🔒</span>
-            Logout
+       {isAuthenticated ? (
+        <button className="secondary-btn" onClick={handleLogout}>
+          <span className="btn-icon">🔒</span>
+          Logout
+        </button>
+      ) : (
+        <Link to="/login">
+          <button className="secondary-btn">
+            <span className="btn-icon">🔑</span>
+            Login
           </button>
+        </Link>
+      )}
     </div>
   );
 };
