@@ -17,6 +17,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Signup from './Signup';
 import Login from './Login';
 import Home from './Home';
+import { addContactFirestore, getContactsFirestore, updateContactFirestore, deleteContactFirestore } from "./firestore";
+
 
 function AppContent() {
 
@@ -29,46 +31,42 @@ function AppContent() {
    const [currentUser, setCurrentUser] = useState(null);
 
    const LOCAL_STORAGE_KEY ='contacts';
-   const addConctactHandler= async(contact) =>{
-    if (!currentUser) {
-      toast.error("Please login first!");
-      return;
-    }
-    const request = {
-      id: uuidv4(),
-      userId: currentUser.id,
-      ...contact
-    }
-    try {
-      const response = await api.post('/contacts', request);
-      setcontacts([...contacts, response.data]);
-      toast.success("Contact added successfully!");
-    } catch (error) {
-      toast.error("Failed to add contact!");
-      console.error("Add contact error:", error);
-    }
-   }
+  const addConctactHandler = async (contact) => {
+  if (!currentUser) return toast.error("Please login first!");
+  try {
+    const newContact = await addContactFirestore(contact, currentUser.id);
+    setcontacts([...contacts, newContact]);
+    toast.success("Contact added successfully!");
+  } catch (error) {
+    console.error("Add contact error:", error);
+    toast.error("Failed to add contact!");
+  }
+  };
+  
 
-   const updateContactHandler = async (contact) => {
-     
-     const response = await api.put(`/contacts/${contact.id}`, contact);
-     const {id,name,email,mobile} =response.data;
-     setcontacts(contacts.map((contact)=>{
-      return contact.id === id ? {...response.data} : contact
-     }))
-     toast.success("Contact updated successfully!");
-
-   };
+  const updateContactHandler = async (contact) => {
+  try {
+    const updated = await updateContactFirestore(contact);
+    setcontacts(contacts.map(c => c.id === updated.id ? updated : c));
+    toast.success("Contact updated successfully!");
+  } catch (error) {
+    console.error("Update contact error:", error);
+    toast.error("Failed to update contact!");
+  }
+};
 
 
-   const removeContactHandler =async (id) =>{
-    await api.delete(`/contacts/${id}`);
-    const newContactsList = contacts.filter((contact)=>{
-      return contact.id !== id
-    })
-    setcontacts(newContactsList);
+  const removeContactHandler = async (id) => {
+  try {
+    await deleteContactFirestore(id);
+    setcontacts(contacts.filter(c => c.id !== id));
     toast.success("Contact deleted successfully!");
-   }
+  } catch (error) {
+    console.error("Delete contact error:", error);
+    toast.error("Failed to delete contact!");
+  }
+};
+
     const searchHandler = (serchTerm)=>{
       setSerchTerm(serchTerm);
        if (serchTerm !== ""){
@@ -83,23 +81,15 @@ function AppContent() {
 
 
     const retriveConctacts = async () => {
-      if (!currentUser) return [];
-    
-      try {
-        const response = await api.get('/contacts');
-        const allContacts = response.data;
-    
-         
-        const userContacts = allContacts.filter(
-          (contact) => contact.userId === currentUser.id
-        );
-    
-        return userContacts;
-      } catch (error) {
-        console.error("Failed to fetch contacts:", error);
-        return [];
-      }
-    };
+  if (!currentUser) return [];
+  try {
+    const userContacts = await getContactsFirestore(currentUser.id);
+    return userContacts;
+  } catch (error) {
+    console.error("Failed to fetch contacts:", error);
+    return [];
+  }
+};
     
    useEffect(() => {
     const token = localStorage.getItem('token');
@@ -180,7 +170,7 @@ function AppContent() {
     isAuthenticated ? (
       <Navigate to="/home" replace />
     ) : (
-      <Signup />
+      <Signup setIsAuthenticated={setIsAuthenticated} />
     )
   } />
           <Route path="/home" element={<Home currentUser={currentUser} contacts={contacts}  />} />

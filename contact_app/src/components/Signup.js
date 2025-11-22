@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate,Link } from 'react-router-dom';
 import './darkTheme.css';  
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebase";
 
-const Signup = () => {
+const Signup = ({ setIsAuthenticated }) => {
   const [formData, setFormData] = useState({ email: '', password: '',name: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -14,26 +16,33 @@ const Signup = () => {
     setFormData({...formData, [e.target.name]: e.target.value});
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    try {
-      setIsLoading(true);
-      const res = await axios.post('https://contact-app-0zrf.onrender.com/users', {
-        email: formData.email,
-        password: formData.password,
-        name: formData.name
-      });
-    setIsLoading(false);
-      alert('Signup successful!');
-      navigate('/');
-    } catch (error) {
-      setIsLoading(false);
-      setError('Signup failed. Please try again.');
-      console.error('Signup error:', error);
-    }
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
+  setIsLoading(true);
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      formData.email,
+      formData.password
+    );
+    const user = userCredential.user;
 
+    
+    const token = await user.getIdToken();
+    localStorage.setItem("token", token);
+    localStorage.setItem("userId", user.uid);
+
+    setIsAuthenticated(true);
+    navigate("/home");
+    alert("Signup successful!");
+  } catch (err) {
+    setError(err.message);
+    console.error("Signup error:", err);
+  } finally {
+    setIsLoading(false);
+  }
+};
   return (
     <div className="auth-container">
       <div className="auth-form">

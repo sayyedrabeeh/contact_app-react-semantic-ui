@@ -1,5 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+ import { Link,useNavigate } from 'react-router-dom';
+
 import './darkTheme.css';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Home = ({ currentUser, contacts }) => {
   const navigate = useNavigate();
   const totalContacts = contacts.length;
-
+  const isAuthenticated = !!localStorage.getItem("token");
   
   const recentContacts = contacts.slice(-5);  
   const pendingContacts = contacts.filter(contact => contact.status === 'pending');  
@@ -65,10 +66,19 @@ const Home = ({ currentUser, contacts }) => {
             <span className="btn-icon">📋</span>
             Access Contacts
           </button>
-          <button className="secondary-btn" onClick={handleLogout}>
-            <span className="btn-icon">🔒</span>
-            Logout
+          {isAuthenticated ? (
+        <button className="secondary-btn" onClick={handleLogout}>
+          <span className="btn-icon">🔒</span>
+          Logout
+        </button>
+      ) : (
+        <Link to="/login">
+          <button className="secondary-btn">
+            <span className="btn-icon">🔑</span>
+            Login
           </button>
+        </Link>
+      )}
         </div>
       </div>
     </div>

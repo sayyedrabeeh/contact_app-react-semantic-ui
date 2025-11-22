@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import './darkTheme.css'; // Import the CSS file
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebase";
+
 
 const Login = ({ setIsAuthenticated,onLoginSuccess  }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -13,36 +16,32 @@ const Login = ({ setIsAuthenticated,onLoginSuccess  }) => {
     setFormData({...formData, [e.target.name]: e.target.value});
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
-    try {
-      const res = await axios.get('https://contact-app-0zrf.onrender.com/users', {
-        params: {
-          email: formData.email,
-          password: formData.password
-        }
-      });
-  
-      if (res.data.length > 0) {
-        const user = res.data[0];
-        localStorage.setItem('token', user.id);  
-         localStorage.setItem('userId', user.id);
-        setIsAuthenticated(true);
-        onLoginSuccess(user);
-        navigate('/Home',{ replace: true });
-      } else {
-        setError('Invalid credentials. Please try again.');
-      }
-    } catch (error) {
-      setError('An error occurred. Try again later.');
-      console.error('Login error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
+  setIsLoading(true);
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      formData.email,
+      formData.password
+    );
+    const user = userCredential.user;
+
+    // Save token locally
+    const token = await user.getIdToken();
+    localStorage.setItem("token", token);
+    localStorage.setItem("userId", user.uid);
+
+    setIsAuthenticated(true);
+    navigate("/home");
+  } catch (err) {
+    setError(err.message);
+    console.error("Login error:", err);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div className="auth-container">
