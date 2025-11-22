@@ -138,6 +138,7 @@ const ContactCard = (props) => {
     </div>
   </div>
 );
+
 };
 
 export default ContactCard;
