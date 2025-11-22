@@ -162,67 +162,75 @@ useEffect(() => {
   };
   
   return (
-    <div className="app-container">
-       
-      <Sidebar />
-        
-        <div className="main-content">
-          <Routes>
-          <Route path="/login" element={
-    isAuthenticated ? (
-      <Navigate to="/home" replace />
-    ) : (
-      <Login setIsAuthenticated={setIsAuthenticated} onLoginSuccess={handleLogin} />
-    )
-  }/>
-          <Route path="/signup" element={
-    isAuthenticated ? (
-      <Navigate to="/home" replace />
-    ) : (
-      <Signup setIsAuthenticated={setIsAuthenticated} />
-    )
-  } />
-          <Route path="/home" element={<Home currentUser={currentUser} contacts={contacts}  />} />
-            <Route
-              path="/"
-              element={
-                isAuthenticated ?(
-                <ContactList
-                  contacts={searchTerm.length < 1
-                    ? contacts
-                    : contacts.filter((contact) =>
-                        contact.name.toLowerCase().includes(searchTerm.toLowerCase())
-                      )}
-                  getContactId={removeContactHandler}
-                  term={searchTerm}
-                  searchKeyword={searchHandler}
-                />): (
-                  <Navigate to="/login" replace />
-                )
-              }
-            />
-            <Route
-              path="/add"
-              element={isAuthenticated ?(<AddContact addContactHandler={addConctactHandler} />):(
-                <Navigate to="/login" replace />
-              )}
-            />
-            <Route
-              path="/edit"
-              element={isAuthenticated ?(<EditContact updateContactHandler={updateContactHandler} />):(
-                <Navigate to="/login" replace />
-              )}
-            />
-            <Route path="/contact/:id" element={isAuthenticated ?(<ContactDetail />):(
-                <Navigate to="/login" replace />
-              )} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </div>
-        <ToastContainer position="top-right" autoClose={3000} />
-
+  <div style={{ display: 'flex', minHeight: '100vh', background: '#0f0f1e' }}>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.css" />
+    
+    <Sidebar />
+      
+    <div style={{
+      flex: 1,
+      marginLeft: '280px',
+      minHeight: '100vh',
+      padding: '2em',
+      background: '#0f0f1e'
+    }}>
+      <Routes>
+        <Route path="/login" element={
+          isAuthenticated ? (
+            <Navigate to="/home" replace />
+          ) : (
+            <Login setIsAuthenticated={setIsAuthenticated} onLoginSuccess={handleLogin} />
+          )
+        }/>
+        <Route path="/signup" element={
+          isAuthenticated ? (
+            <Navigate to="/home" replace />
+          ) : (
+            <Signup setIsAuthenticated={setIsAuthenticated} />
+          )
+        } />
+        <Route path="/home" element={<Home currentUser={currentUser} contacts={contacts} />} />
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? (
+              <ContactList
+                contacts={searchTerm.length < 1
+                  ? contacts
+                  : contacts.filter((contact) =>
+                      contact.name.toLowerCase().includes(searchTerm.toLowerCase())
+                    )}
+                getContactId={removeContactHandler}
+                term={searchTerm}
+                searchKeyword={searchHandler}
+              />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route
+          path="/add"
+          element={isAuthenticated ? (<AddContact addContactHandler={addConctactHandler} />) : (
+            <Navigate to="/login" replace />
+          )}
+        />
+        <Route
+          path="/edit"
+          element={isAuthenticated ? (<EditContact updateContactHandler={updateContactHandler} />) : (
+            <Navigate to="/login" replace />
+          )}
+        />
+        <Route path="/contact/:id" element={isAuthenticated ? (<ContactDetail />) : (
+          <Navigate to="/login" replace />
+        )} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
-  );
+    <ToastContainer position="top-right" autoClose={3000} />
+  </div>
+);
+
 }
 const App = () => {
   return (

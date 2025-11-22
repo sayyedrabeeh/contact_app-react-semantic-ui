@@ -32,7 +32,7 @@ const Home = ({ currentUser, contacts }) => {
   <div style={{ padding: '2em' }}>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.css" />
     
-    {/* Header Section */}
+    
     <div className="ui segment" style={{
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       border: 'none',
@@ -69,8 +69,7 @@ const Home = ({ currentUser, contacts }) => {
         Advanced Contact Management System
       </p>
     </div>
-
-    {/* Welcome Panel */}
+ 
     <div className="ui segment" style={{
       background: 'linear-gradient(145deg, #1e1e2e 0%, #2a2a3e 100%)',
       borderRadius: '20px',
@@ -101,7 +100,7 @@ const Home = ({ currentUser, contacts }) => {
 
       <div className="ui divider" style={{ margin: '2em 0', borderColor: 'rgba(255,255,255,0.1)' }}></div>
 
-      {/* Statistics Grid */}
+ 
       <div className="ui three column stackable grid" style={{ margin: 0 }}>
         <div className="column">
           <div style={{
@@ -177,7 +176,7 @@ const Home = ({ currentUser, contacts }) => {
       </div>
     </div>
 
-    {/* Action Buttons */}
+ 
     <div style={{ textAlign: 'center', marginTop: '2em' }}>
       <button 
         className="ui big violet button" 
