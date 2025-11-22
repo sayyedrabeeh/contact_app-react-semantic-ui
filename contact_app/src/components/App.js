@@ -163,7 +163,7 @@ function AppContent() {
     <div style={{ display: 'flex', minHeight: '100vh', background: '#0f0f1e' }}>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.css" />
 
-      {shouldShowSidebar && <Sidebar onLogout={handleLogout} />}
+      {shouldShowSidebar && <Sidebar currentUser={currentUser} onLogout={handleLogout} />}
 
       <div style={{
         flex: 1,
@@ -181,7 +181,13 @@ function AppContent() {
             isAuthenticated ? <Navigate to="/home" replace /> :
               <Signup setIsAuthenticated={setIsAuthenticated} />
           } />
-          <Route path="/home" element={<Home currentUser={currentUser} contacts={contacts} />} />
+          <Route path="/home" element={
+            isAuthenticated ? (
+              <Home currentUser={currentUser} contacts={contacts} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          } />
           <Route path="/" element={
             isAuthenticated ? (
               <ContactList

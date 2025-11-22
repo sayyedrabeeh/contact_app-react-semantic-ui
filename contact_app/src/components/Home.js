@@ -1,5 +1,7 @@
 import React from 'react';
- import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+ import { signOut } from "firebase/auth";
+import { auth } from "./firebaseConfig";
 
 // import './darkTheme.css';
 import { ToastContainer,toast } from 'react-toastify';
@@ -9,18 +11,20 @@ import 'react-toastify/dist/ReactToastify.css';
 const Home = ({ currentUser, contacts }) => {
   const navigate = useNavigate();
   const totalContacts = contacts.length;
-  const isAuthenticated = !!localStorage.getItem("token");
+  const isAuthenticated = !!currentUser;
+
   
   const recentContacts = contacts.slice(-5);  
   const pendingContacts = contacts.filter(contact => contact.status === 'pending');  
 
-  const handleLogout = () => {
+  const handleLogout = async() => {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');  
     toast.info("Logged out successfully"); 
+    await signOut(auth);
+     setTimeout(() => {
+     navigate('/login');
   
-    setTimeout(() => {
-      window.location.href = '/Home';  
     }, 1000);  
   };
 

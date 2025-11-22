@@ -1,20 +1,23 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+ import { signOut } from "firebase/auth";
+import { auth } from "./firebaseConfig";
 
-const Sidebar = () => {
+const Sidebar = ({ currentUser}) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isAuthenticated = !!localStorage.getItem("token");
+  const isAuthenticated = !!currentUser;
 
-  const handleLogout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('userId');  
-    toast.info("Logged out successfully"); 
-
-  setTimeout(() => {
-    window.location.href = '/home';  
-  }, 1000);  
+   const handleLogout = async() => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');  
+      toast.info("Logged out successfully"); 
+      await signOut(auth);
+       setTimeout(() => {
+       navigate('/login');
+    
+      }, 1000);  
 };
  return (
   <div style={{
