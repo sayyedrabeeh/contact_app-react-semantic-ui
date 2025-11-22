@@ -1,9 +1,9 @@
 // App.js
 import React, {useState,useEffect, use} from 'react';
-import './App.css';
+// import './App.css';
 import Header from './header';
 import AddContact from './addconctact';
-import './darkTheme.css';
+// import './darkTheme.css';
 import api from '../api/contact';
  import ContactList from './conctactList';
  import { v4 as uuidv4 } from 'uuid';
