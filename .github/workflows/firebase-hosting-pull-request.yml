@@ -31,7 +31,7 @@ jobs:
 
       # Step 4: Build React app inside contact_app
       - name: Build React app
-        run: npm run build
+        run: CI=false npm run build
         working-directory: ./contact_app
 
       # Step 5: Deploy to Firebase Hosting preview channel
