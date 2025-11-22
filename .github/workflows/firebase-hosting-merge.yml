@@ -15,7 +15,7 @@ jobs:
       # Step 2: Setup Node.js
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
 
       # Step 3: Install dependencies in contact_app
       - name: Install dependencies
