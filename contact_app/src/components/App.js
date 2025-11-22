@@ -80,16 +80,19 @@ function AppContent() {
     }
 
 
-    const retriveConctacts = async () => {
+   const retriveConctacts = async () => {
   if (!currentUser) return [];
   try {
     const userContacts = await getContactsFirestore(currentUser.id);
-    return userContacts;
+    setcontacts(userContacts || []);
+    seterchResults(userContacts || []);
   } catch (error) {
     console.error("Failed to fetch contacts:", error);
-    return [];
+    setcontacts([]);
+    seterchResults([]);
   }
 };
+
     
    useEffect(() => {
     const token = localStorage.getItem('token');
@@ -100,7 +103,23 @@ function AppContent() {
       setCurrentUser({ id: Number(userId) }); 
     }
   }, []);
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
 
+  if (token && userId) {
+    setIsAuthenticated(true);
+    setCurrentUser({ id: userId });
+  }
+}, []);
+
+useEffect(() => {
+  if (isAuthenticated && currentUser) {
+    retriveConctacts(); // ✅ Fetch contacts whenever user changes
+  }
+}, [isAuthenticated, currentUser]);
+
+  
  useEffect(()=>{
   //   const retriveConctacts= JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
   //   if (retriveConctacts && retriveConctacts.length ) setcontacts(retriveConctacts)
