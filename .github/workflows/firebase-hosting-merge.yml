@@ -1,4 +1,4 @@
-# Deploy to Firebase Hosting on merge to main branch
+# .github/workflows/firebase-hosting-merge.yml
 name: Deploy to Firebase Hosting on merge
 on:
   push:
@@ -8,26 +8,26 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-
     steps:
-      # Step 1: Checkout the repo
+      # Step 1: Checkout repo
       - uses: actions/checkout@v4
 
       # Step 2: Setup Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # Step 3: Install dependencies inside contact_app
+      # Step 3: Install dependencies in contact_app
       - name: Install dependencies
         run: npm ci
         working-directory: ./contact_app
 
-      # Step 4: Build React app inside contact_app
+      # Step 4: Build React app
       - name: Build React app
-        run: CI=false npm run build
+        run: npm run build
         working-directory: ./contact_app
+        env:
+          CI: false  # Prevent treating warnings as errors
 
       # Step 5: Deploy to Firebase Hosting
       - name: Deploy to Firebase
@@ -35,5 +35,6 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CONTACT_APP_94C8A }}
-          channelId: live
           projectId: contact-app-94c8a
+          channelId: live
+          entryPoint: ./contact_app  # This points to your firebase.json
