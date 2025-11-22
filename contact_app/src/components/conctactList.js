@@ -56,7 +56,7 @@ const ContactList = (props) => {
           onChange={getSearchTerm}
         />
       </div>
-      <ToastContainer position="top-right" autoClose={3000} />
+      
 
       {props.contacts.length > 0 ? (
         <div className="cards-grid">

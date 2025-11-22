@@ -37,7 +37,7 @@ const Home = ({ currentUser, contacts }) => {
           <h1>CONTACT NEXUS</h1>
           <p className="subtitle">Advanced Contact Management System</p>
         </div>
-        <ToastContainer position="top-right" autoClose={3000} />
+        
 
         <div className="welcome-message">
           <div className="welcome-panel">

@@ -10,7 +10,7 @@ const AddContact = (props) => {
   const [mobile, setMobile] = useState("");
   const navigate = useNavigate();
 
-  const add = (e) => {
+  const add = async (e) => {
     e.preventDefault();
     if (name === "" || email === "") {
         toast.error("All fields are mandatory!");
@@ -21,12 +21,16 @@ const AddContact = (props) => {
         return;
       }
       
-    props.addContactHandler({ name, email,mobile });
+     try {
+        await props.addContactHandler({ name, email, mobile }); 
     setName("");
     setEmail("");
     setMobile("");
     toast.success("Contact added successfully!");
-    navigate("/");
+    navigate("/"); 
+  } catch (error) {
+    toast.error("Failed to add contact!");
+  }
   };
 
   return (
@@ -34,7 +38,7 @@ const AddContact = (props) => {
       <div className="header">
         <h2>Add Contact</h2>
       </div>
-      <ToastContainer position="top-right" autoClose={3000} />
+      
 
       <div className="form-container">
         <form onSubmit={add}>

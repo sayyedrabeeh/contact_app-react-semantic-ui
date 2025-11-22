@@ -32,16 +32,24 @@ function AppContent() {
 
    const LOCAL_STORAGE_KEY ='contacts';
   const addConctactHandler = async (contact) => {
-  if (!currentUser) return toast.error("Please login first!");
+  if (!currentUser) {
+    toast.error("Please login first!");
+    return; 
+  }
+  
   try {
     const newContact = await addContactFirestore(contact, currentUser.id);
-    setcontacts([...contacts, newContact]);
-    toast.success("Contact added successfully!");
+    setcontacts(prevContacts => [...prevContacts, newContact]);
+    seterchResults(prevContacts => [...prevContacts, newContact]);
+    console.log("Contact added successfully:", newContact);
+    toast.success("Contact added successfully!");  
+    return newContact;
   } catch (error) {
     console.error("Add contact error:", error);
     toast.error("Failed to add contact!");
+    throw error;
   }
-  };
+};
   
 
   const updateContactHandler = async (contact) => {
@@ -93,16 +101,7 @@ function AppContent() {
   }
 };
 
-    
-   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
-    
-    if (token && userId) {
-      setIsAuthenticated(true);
-      setCurrentUser({ id: Number(userId) }); 
-    }
-  }, []);
+ 
 useEffect(() => {
   const token = localStorage.getItem('token');
   const userId = localStorage.getItem('userId');
@@ -115,14 +114,13 @@ useEffect(() => {
 
 useEffect(() => {
   if (isAuthenticated && currentUser) {
-    retriveConctacts(); // ✅ Fetch contacts whenever user changes
+    retriveConctacts();  
   }
 }, [isAuthenticated, currentUser]);
 
   
  useEffect(()=>{
-  //   const retriveConctacts= JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-  //   if (retriveConctacts && retriveConctacts.length ) setcontacts(retriveConctacts)
+ 
   const getAllContacts = async () => {
     if (isAuthenticated && currentUser) {
       const userContacts = await retriveConctacts();
@@ -139,15 +137,7 @@ useEffect(() => {
    useEffect(()=>{
     localStorage.setItem(LOCAL_STORAGE_KEY,JSON.stringify(contacts));
    },[contacts])
- useEffect(() => {
-    const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
-    
-    if (token && userId) {
-      setIsAuthenticated(true);
-      setCurrentUser({ id: userId });
-    }
-  }, []);
+  
 
    const AddContactWithNavigation = (props) => {
     const navigate = useNavigate();
